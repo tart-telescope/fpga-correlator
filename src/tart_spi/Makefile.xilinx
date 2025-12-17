@@ -75,21 +75,21 @@ TARGET=xc6slx9-tqg144-2
 # TARGET=xc5vlx30-ff324-3
 # TARGET=xc2v3000-ff1152-6
 
-# export XILINX=/usr/local/Xilinx
-export XILINX=/mnt/bucket/Xilinx/14.7/ISE_DS/ISE/bin/lin64
+export XILINX=/usr/local/Xilinx
+# export XILINX=/mnt/bucket/Xilinx/14.7/ISE_DS/ISE/bin/lin64
 
 
 ##--------------------------------------------------------------------------##
 ##  Synthesis files.
 ##--------------------------------------------------------------------------##
-DIR=$(shell pwd)
+DIR=.
 RTL=${DIR}/verilog
 UCF=${DIR}/papilio
 INC=${DIR}/include
 
 LIB_FILES=${RTL}/fifo/afifo_gray.v ${RTL}/mfsr/mfsr32.v ${RTL}/misc/shift_reg.v
 
-WB4=${DIR}/../wishbone/rtl
+WB4=${DIR}/wishbone/rtl
 WB4_FILES=${WB4}/wb_transfer.v ${WB4}/wb_cycle.v ${WB4}/wb_sram_port.v ${WB4}/wb_sram_prefetch.v ${WB4}/wb_fetch.v ${WB4}/wb_sram_stream.v ${WB4}/wb_reset.v
 
 XIL=${RTL}/xilinx
@@ -120,7 +120,7 @@ SIM=${DIR}/bench
 COMMON_FILES=${RTL}/tart.v ${RTL}/tart_dual_dcm.v ${RTL}/tart_wishbone.v ${RTL}/tart_control.v ${RTL}/SDRAM_Controller_v.v ${LIB_FILES} ${XIL_FILES} ${WB4_FILES} ${SPI_FILES} ${CAP_FILES} ${ACQ_FILES} ${DSP_FILES}
 
 XFILES=${COMMON_FILES}
-IFILES=${COMMON_FILES} ${SIM}/tart_dsp_tb.v ${SIM}/xilinx/IDDR2.v ${SIM}/xilinx/DSP48A1.v 
+IFILES=${COMMON_FILES} ${SIM}/tart_dsp_tb.v ${SIM}/xilinx/IDDR2.v ${SIM}/xilinx/DSP48A1.v
 
 # (optional) Name of top module. Defaults to name of first file with suffix removed
 TOP_MODULE=tart
@@ -182,6 +182,8 @@ ICARUS_OPTIONS=-I ./include/
 X_SETTINGS = ${XILINX}/../../../settings64.sh
 X_PREFIX   = _xilinx_int
 X_LABEL    = ${BUILD}/${X_PREFIX}
+
+X_CMD=ise-docker/tools/xilinx.sh -l ./ise-docker/Xilinx.lic -p . --
 
 PART=$(shell echo ${TARGET} | cut -d- -f1)
 PACKAGE=$(shell echo ${TARGET} | cut -d- -f2)
@@ -303,7 +305,7 @@ icarus: clean_test ${XFILES}
 #########################################################
 # Used both for CPLD and FPGA
 
-${X_LABEL}.prj : 
+${X_LABEL}.prj :
 	@echo '`define __${PART}_${PACKAGE} 1'  > ${X_LABEL}_target.v
 	@echo '`define __xilinx 1'  >>  ${X_LABEL}_target.v
 	@rm -f ${X_LABEL}.prj
@@ -318,26 +320,26 @@ ${X_LABEL}.ngc : ${X_LABEL}.prj ${FFILES} ${PINOUT}
 	@echo 'set -tmpdir ${X_LABEL}_dir/xst -xsthdpdir ${X_LABEL}_dir/xst'> ${X_LABEL}.scr
 	@echo 'run -ifn ${X_LABEL}.prj -ifmt mixed -top $(TOP_MODULE) -ofn ${X_LABEL}.ngc -p ${PART}-${PACKAGE}-${SPEED_GRADE}' >> ${X_LABEL}.scr
 	@echo '-opt_mode ${OPT_MODE} -opt_level ${XST_OPT_LEVEL}' ${XST_EXTRAS} >> ${X_LABEL}.scr
-	. ${X_SETTINGS} ; xst -ifn ${X_LABEL}.scr
+	${X_CMD} xst -ifn ${X_LABEL}.scr
 
 ${X_LABEL}_%.srp: ${X_LABEL}.prj ${FFILES} ${PINOUT}
 	@echo 'set -tmpdir ${X_LABEL}_dir/xst -xsthdpdir ${X_LABEL}_dir/xst'> ${X_LABEL}_$(*F).scr
 	@echo 'run -ifn ${X_LABEL}.prj -ifmt mixed -top $(*F) -ofn ${X_LABEL}_$(*F).ngc -p ${PART}-${PACKAGE}-${SPEED_GRADE}' >> ${X_LABEL}_$(*F).scr
 	@echo '-opt_mode ${OPT_MODE} -opt_level ${XST_OPT_LEVEL}' ${XST_EXTRAS} >> ${X_LABEL}_$(*F).scr
-	. ${X_SETTINGS} ; xst -ifn ${X_LABEL}_$(*F).scr
+	${X_CMD} xst -ifn ${X_LABEL}_$(*F).scr
 
 resources: $(patsubst %,${X_LABEL}_%.srp,${RSRC_REPORT})
 	@for x in ${RSRC_REPORT}; do echo MODULE: $$x ; head -$$[15+`grep -n "Device utilization summary" $(patsubst %,${X_LABEL}_%.srp,$$x) | grep -v ")" | cut -d: -f1`] $(patsubst %,${X_LABEL}_%.srp,$$x) | tail -15 | grep "Number of" | grep -v IOBs | grep -v GCLKs ; echo "" ; done
 
 ${X_LABEL}.ngd : ${X_LABEL}.ngc
 	@mkdir -p ${X_LABEL}_dir/xst
-	. ${X_SETTINGS} ; ngdbuild -dd ${X_LABEL}_dir ${AUL} ${NGDBUILD_EXTRAS} ${SILENT_INT} -uc ${PINOUT} ${X_LABEL}.ngc
+	${X_CMD} ngdbuild -dd ${X_LABEL}_dir ${AUL} ${NGDBUILD_EXTRAS} ${SILENT_INT} -uc ${PINOUT} ${X_LABEL}.ngc
 	@mv ${X_PREFIX}.ngd ${X_LABEL}.ngd
 
 build: clean_test ${X_LABEL}.${PROG_EXT}
 
 program: clean_test clean_test build
-	. ${X_SETTINGS} ; impact -batch impact_${PART_TYPE}.cmd
+	${X_CMD} impact -batch impact_${PART_TYPE}.cmd
 
 
 #########################################################
@@ -350,10 +352,10 @@ CPLD_OPT_MODE=speed
 endif
 
 ${X_PREFIX}.vm6 : ${X_PREFIX}.ngd
-	. ${X_SETTINGS} ; cpldfit -p ${PART}-${SPEED_GRADE}-${PACKAGE} -optimize ${CPLDFIT_XTRAS} ${CPLD_OPT_MODE} ${CPLD_EXHAUST} ${X_PREFIX}.ngd
+	${X_CMD} cpldfit -p ${PART}-${SPEED_GRADE}-${PACKAGE} -optimize ${CPLDFIT_XTRAS} ${CPLD_OPT_MODE} ${CPLD_EXHAUST} ${X_PREFIX}.ngd
 
 ${X_PREFIX}.jed : ${X_PREFIX}.vm6
-	. ${X_SETTINGS} ; hprep6 -i ${X_PREFIX}.vm6 ${SILENT_INT} ${HPREP6_EXTRAS}
+	${X_CMD} hprep6 -i ${X_PREFIX}.vm6 ${SILENT_INT} ${HPREP6_EXTRAS}
 
 
 #########################################################
@@ -363,14 +365,14 @@ map: ${X_LABEL}0.ncd
 
 ${X_LABEL}0.ncd : ${X_LABEL}.ngd
 	@cp ${X_LABEL}.ngd ${X_LABEL}0.ngd
-	. ${X_SETTINGS} ; map ${MAP_QUIET} ${MAP_EXTRAS} -ol high ${X_LABEL}0.ngd ${X_LABEL}0.pcf
+	${X_CMD} map ${MAP_QUIET} ${MAP_EXTRAS} -ol high ${X_LABEL}0.ngd ${X_LABEL}0.pcf
 
 par: ${X_LABEL}.ncd
 
 ${X_LABEL}.ncd :${X_LABEL}0.ncd
-	. ${X_SETTINGS} ; par -w ${PAR_OPT} ${PAR_EXTRAS} ${X_LABEL}0.ncd ${X_LABEL}.ncd
-#	. ${X_SETTINGS} ; par -n 5 -pl high -rl std  ${X_LABEL}0.ncd ${X_LABEL}.dir
-	. ${X_SETTINGS} ; trce -a ${SILENT_INT} ${X_LABEL}.ncd ${X_LABEL}0.pcf
+	${X_CMD} par -w ${PAR_OPT} ${PAR_EXTRAS} ${X_LABEL}0.ncd ${X_LABEL}.ncd
+#	${X_CMD} par -n 5 -pl high -rl std  ${X_LABEL}0.ncd ${X_LABEL}.dir
+	${X_CMD} trce -a ${SILENT_INT} ${X_LABEL}.ncd ${X_LABEL}0.pcf
 	@mv ${X_PREFIX}.twr ${X_LABEL}.twr
 	tail -18 ${X_LABEL}.twr
 
@@ -380,4 +382,4 @@ timing: ${X_LABEL}.ncd
 bitgen: ${X_LABEL}.bit
 
 ${X_LABEL}.bit : ${X_LABEL}.ncd
-	. ${X_SETTINGS} ; bitgen -w ${SILENT_INT} ${BITGEN_EXTRAS} ${X_LABEL}.ncd
+	${X_CMD} bitgen -w ${SILENT_INT} ${BITGEN_EXTRAS} ${X_LABEL}.ncd
