@@ -15,205 +15,205 @@
   <version xil_pn:ise_version="14.7" xil_pn:schema_version="2"/>
 
   <files>
-    <file xil_pn:name="verilog/capture/fake_telescope.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/fake_telescope.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="33"/>
     </file>
-    <file xil_pn:name="verilog/acquire/fifo_control.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/acquire/fifo_control.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="21"/>
     </file>
-    <file xil_pn:name="verilog/acquire/block_buffer.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/acquire/block_buffer.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="22"/>
     </file>
-    <file xil_pn:name="verilog/SDRAM_Controller_v.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/SDRAM_Controller_v.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="40"/>
     </file>
-    <file xil_pn:name="verilog/tart_dcm.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/tart_dcm.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="67"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/acquire/dram_prefetch.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/acquire/dram_prefetch.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="68"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="35"/>
     </file>
-    <file xil_pn:name="verilog/tart.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/tart.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="73" xil_pn:seqIDinc="7"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="1" xil_pn:seqIDinc="7"/>
     </file>
-    <file xil_pn:name="verilog/tart_control.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/tart_control.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="74"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="38"/>
     </file>
-    <file xil_pn:name="verilog/spi/spi_layer.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/spi/spi_layer.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="75"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="27"/>
     </file>
-    <file xil_pn:name="verilog/fifo/afifo_gray.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/fifo/afifo_gray.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="76"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="17"/>
     </file>
-    <file xil_pn:name="verilog/correlator/tart_correlator.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/tart_correlator.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="77"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="30"/>
     </file>
-    <file xil_pn:name="verilog/correlator/tart_visibilities.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/tart_visibilities.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="78"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="29"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/RAM32X6_SDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/RAM32X6_SDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="90"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="2"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/RAMB8X32_SDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/RAMB8X32_SDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="91"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/RAMB8X36_SDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/RAMB8X36_SDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="92"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/MUX8.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/MUX8.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="95"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
     </file>
-    <file xil_pn:name="verilog/correlator/tart_dsp.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/tart_dsp.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="108"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="41"/>
     </file>
-    <file xil_pn:name="papilio/constraints.ucf" xil_pn:type="FILE_UCF">
+    <file xil_pn:name="/workspace/papilio/constraints.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/capture/tart_capture.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/tart_capture.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="92"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="42"/>
     </file>
-    <file xil_pn:name="verilog/mfsr/mfsr32.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/mfsr/mfsr32.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="93"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="16"/>
     </file>
-    <file xil_pn:name="verilog/acquire/tart_acquire.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/acquire/tart_acquire.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="94"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="43"/>
     </file>
-    <file xil_pn:name="papilio/floor.ucf" xil_pn:type="FILE_UCF">
+    <file xil_pn:name="/workspace/papilio/floor.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/RAMB16X16X4_TDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/RAMB16X16X4_TDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="102"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="26"/>
     </file>
-    <file xil_pn:name="verilog/xilinx/RAMB16X32_TDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/xilinx/RAMB16X32_TDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="104"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/correlator/correlate_cos_sin_DSP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/correlate_cos_sin_DSP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="105"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
-    <file xil_pn:name="verilog/correlator/correlate_cos_sin.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/correlate_cos_sin.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="106"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
     </file>
-    <file xil_pn:name="verilog/correlator/correlator_DSP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/correlator_DSP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="107"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="9"/>
     </file>
-    <file xil_pn:name="verilog/correlator/correlator_SDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/correlator_SDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="108"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="8"/>
     </file>
-    <file xil_pn:name="verilog/correlator/fake_hilbert.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/fake_hilbert.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="109"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="18"/>
     </file>
-    <file xil_pn:name="verilog/correlator/rmw_address_unit.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/rmw_address_unit.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="110"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
     </file>
-    <file xil_pn:name="verilog/spi/spi_slave_wb.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/spi/spi_slave_wb.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="111"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="39"/>
     </file>
-    <file xil_pn:name="verilog/correlator/control.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/control.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="117"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="12"/>
     </file>
-    <file xil_pn:name="verilog/correlator/block_DSP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/block_DSP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="118"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="14"/>
     </file>
-    <file xil_pn:name="verilog/correlator/correlator_block.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/correlator_block.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="119"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="19"/>
     </file>
-    <file xil_pn:name="verilog/correlator/block_SDP.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/block_SDP.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="120"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="13"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_cycle.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_cycle.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="113"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="25"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_fetch.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_fetch.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="114"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="11"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_sram_stream.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_sram_stream.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="115"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="23"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_sram_prefetch.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_sram_prefetch.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="117"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="15"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_reset.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_reset.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="118"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="24"/>
     </file>
-    <file xil_pn:name="verilog/correlator/bank_switch.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/correlator/bank_switch.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="100"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="20"/>
     </file>
-    <file xil_pn:name="verilog/capture/signal_capture.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/signal_capture.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="102"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="../wishbone/rtl/wb_sram_port.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/wishbone/rtl/wb_sram_port.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="103"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="10"/>
     </file>
-    <file xil_pn:name="verilog/capture/signal_centre.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/signal_centre.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="104"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/capture/capture_control.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/capture_control.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="105"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="verilog/misc/shift_reg.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/misc/shift_reg.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="107"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="28"/>
     </file>
-    <file xil_pn:name="verilog/tart_wishbone.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/tart_wishbone.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="108"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="36"/>
     </file>
-    <file xil_pn:name="verilog/acquire/raw_acquire.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/acquire/raw_acquire.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="109"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="34"/>
     </file>
-    <file xil_pn:name="verilog/capture/signal_phase_DDR.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/signal_phase_DDR.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="105"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="32"/>
     </file>
-    <file xil_pn:name="verilog/capture/signal_source.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/capture/signal_source.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="106"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="31"/>
     </file>
-    <file xil_pn:name="verilog/tart_dual_dcm.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="/workspace/verilog/tart_dual_dcm.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="107"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="37"/>
     </file>
@@ -226,8 +226,8 @@
     <!-- Do not hand-edit this section, as it will be overwritten when the    -->
     <!-- project is analyzed based on files automatically identified as       -->
     <!-- include files.                                                       -->
-    <file xil_pn:name="include/tartcfg.v" xil_pn:type="FILE_VERILOG"/>
-    <file xil_pn:name="include/tart_pairs.v" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="/workspace/include/tartcfg.v" xil_pn:type="FILE_VERILOG"/>
+    <file xil_pn:name="/workspace/include/tart_pairs.v" xil_pn:type="FILE_VERILOG"/>
   </autoManagedFiles>
 
   <properties>
@@ -256,7 +256,7 @@
     <property xil_pn:name="Change Device Speed To Post Trace" xil_pn:value="-2" xil_pn:valueState="default" xil_pn:x_locked="true"/>
     <property xil_pn:name="Clock Port" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Combinatorial Logic Optimization" xil_pn:value="true" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Compile EDK Simulation Library" xil_pn:value="true" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Compile EDK Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Compile SIMPRIM (Timing) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Compile UNISIM (Functional) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Compile XilinxCoreLib (CORE Generator) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
@@ -347,7 +347,7 @@
     <property xil_pn:name="Ignore User Timing Constraints Map" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Ignore User Timing Constraints Par" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Implementation Top" xil_pn:value="Module|tart" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Implementation Top File" xil_pn:value="verilog/tart.v" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Implementation Top File" xil_pn:value="/workspace/verilog/tart.v" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/tart" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Include 'uselib Directive in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Include SIMPRIM Models in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -506,7 +506,7 @@
     <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)" xil_pn:valueState="default"/>
     <property xil_pn:name="Target Board for Hardware Co-Simulation" xil_pn:value="N/A" xil_pn:valueState="default"/>
     <property xil_pn:name="Target Simulator" xil_pn:value="Please Specify" xil_pn:valueState="default"/>
-    <property xil_pn:name="Target UCF File Name" xil_pn:value="spi_slave.ucf" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Target UCF File Name" xil_pn:value="/workspace/spi_slave.ucf" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Timing Mode Map" xil_pn:value="Performance Evaluation" xil_pn:valueState="default"/>
     <property xil_pn:name="Timing Mode Par" xil_pn:value="Performance Evaluation" xil_pn:valueState="default"/>
     <property xil_pn:name="Top-Level Module Name in Output Netlist" xil_pn:value="" xil_pn:valueState="default"/>
@@ -540,7 +540,7 @@
     <property xil_pn:name="VCCAUX Voltage Level spartan6" xil_pn:value="2.5V" xil_pn:valueState="default"/>
     <property xil_pn:name="VHDL Source Analysis Standard" xil_pn:value="VHDL-93" xil_pn:valueState="default"/>
     <property xil_pn:name="Value Range Check" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Verilog Include Directories" xil_pn:value="include" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Verilog Include Directories" xil_pn:value="/workspace/include" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Verilog Macros" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Wait for DCM and PLL Lock (Output Events) spartan6" xil_pn:value="Default (NoWait)" xil_pn:valueState="default"/>
     <property xil_pn:name="Wakeup Clock spartan6" xil_pn:value="Startup Clock" xil_pn:valueState="default"/>
@@ -566,8 +566,8 @@
   </properties>
 
   <bindings>
-    <binding xil_pn:location="/tart" xil_pn:name="papilio/constraints.ucf"/>
-    <binding xil_pn:location="/tart" xil_pn:name="papilio/floor.ucf"/>
+    <binding xil_pn:location="/tart" xil_pn:name="/workspace/papilio/constraints.ucf"/>
+    <binding xil_pn:location="/tart" xil_pn:name="/workspace/papilio/floor.ucf"/>
   </bindings>
 
   <libraries/>

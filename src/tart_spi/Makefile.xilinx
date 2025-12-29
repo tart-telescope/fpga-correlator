@@ -83,6 +83,7 @@ export XILINX=/usr/local/Xilinx
 ##  Synthesis files.
 ##--------------------------------------------------------------------------##
 DIR=.
+# (shell pwd)
 RTL=${DIR}/verilog
 UCF=${DIR}/papilio
 INC=${DIR}/include
@@ -183,7 +184,18 @@ X_SETTINGS = ${XILINX}/../../../settings64.sh
 X_PREFIX   = _xilinx_int
 X_LABEL    = ${BUILD}/${X_PREFIX}
 
-X_CMD=ise-docker/tools/xilinx.sh -l ./ise-docker/Xilinx.lic -p . --
+# X_CMD=ise-docker/tools/xilinx.sh -l ./ise-docker/Xilinx.lic -p . --
+# Requires the docker image for the xilinx tools (see the ise-docker github) modified by tim
+# snd with the licence file built in. This is created with (docker save -o xilinx-ise.tar xilinx-ise:latest)
+# And should be loaded with (docker load -i xilinx-ise.tar).
+X_CMD=docker run -it --rm --net=bridge --user `id -u` \
+    -e DISPLAY=${DISPLAY} \
+    -e HOME=/root \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ${HOME}/.Xauthority:/root/.Xauthority:rw \
+    -v ${DIR}:/workspace \
+    xilinx-ise
+
 
 PART=$(shell echo ${TARGET} | cut -d- -f1)
 PACKAGE=$(shell echo ${TARGET} | cut -d- -f2)

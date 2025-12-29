@@ -6,52 +6,53 @@
 ------------------------------------------------------------------------------
 -- |
 -- Module      : Main
--- Copyright   : (C) Tim Molteno     2016
---               (C) Max Scheel      2016
---               (C) Patrick Suggate 2016
+-- Copyright   : (C) Tim Molteno      2016
+--               (C) Max Scheel       2016
+--               (C) Patrick Suggate  2016
 -- License     : GPL3
--- 
+--
 -- Maintainer  : Patrick Suggate <patrick.suggate@gmail.com>
 -- Stability   : Experimental
 -- Portability : non-portable
--- 
--- 
+--
+--
 -- This file is part of TART.
--- 
+--
 -- TART is free software: you can redistribute it and/or modify it under the
 -- terms of the GNU Lesser Public License as published by the Free Software
 -- Foundation, either version 3 of the License, or (at your option) any later
 -- version.
--- 
+--
 -- TART is distributed in the hope that it will be useful, but WITHOUT ANY
 -- WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 -- FOR A PARTICULAR PURPOSE.  See the GNU Lesser Public License for more
 -- details.
--- 
+--
 -- You should have received a copy of the GNU Lesser Public License along with
 -- TART.  If not, see <http://www.gnu.org/licenses/>.
--- 
--- 
+--
+--
 -- Description:
 -- Generates the configuration values for TART's hardware correlators.
--- 
+--
 -- NOTE:
 --  + requires `text` and `turtle` to be installed:
 --      > cabal install text turtle
 --      > make pairs
 --      > make permute
--- 
+--
 -- Changelog:
 --  + 16/06/2016  --  initial file;
 --  + 15/10/2016  --  permutation vector support added;
--- 
+--  + 19/12/2025  --  removed unused Data.Set dependency;
+--
 -- FIXME:
--- 
+--
 -- TODO:
 --  + only inputs `a == 24, b == 6, m == 12` are correctly supported;
 --  + finish the refactoring (to use `Pair`, etc.);
 --  + rewrite in `Python`?
--- 
+--
 ------------------------------------------------------------------------------
 
 module Main where
@@ -68,8 +69,7 @@ import Data.Text (pack, unpack)
 import Text.Printf
 import Turtle hiding (printf)
 
-import qualified Data.Set as Set
-import qualified Data.Map as Map
+-- Removed unused import: import qualified Data.Set as Set
 
 
 -- * Correlator-pairs data-types.
@@ -88,7 +88,7 @@ type Means  a = [Pair  a]
 type Block  a = [Pairs a]
 type Blocks a = [Block a]
 
-type BlockZ   =  Pair [Z]
+type BlockZ    =  Pair [Z]
 type BlockSet = [Pair [Z]]
 
 
@@ -104,7 +104,7 @@ permute a b m =
       go (Pair p q:ps) = p:q:go ps
 --       go (Mean p q:ps) = p:q:go ps -- unflipped means
       go (Mean p q:ps) = q:p:go ps -- flip the means
-      go           []  = []
+      go            []  = []
   in  revperm $ go pm
 
 revperm :: [Z] -> [Z]
@@ -121,7 +121,7 @@ pairIndex :: Z -> Pairs Z -> Pairs Z
 pairIndex stride =
   let f (Pair i j) = let k = ((2*stride - i - 3) * i) + 2*j - 2
                      in  k `Pair` succ k
-      f       mij  = (p+) <$> mij
+      f        mij  = (p+) <$> mij
       p = stride * pred stride
   in  map f
 
@@ -132,7 +132,7 @@ pairIndex stride =
 pairs :: Z -> Pairs Z
 pairs n = go 0
   where
-    go i | i  <  n   = zipWith Pair (repeat i) [i+1..n-1] ++ go (i+1)
+    go i | i  <  n    = zipWith Pair (repeat i) [i+1..n-1] ++ go (i+1)
          | otherwise = []
 
 -- | Generate all unique pairwise interactions for the two blocks of antenna
@@ -140,15 +140,15 @@ pairs n = go 0
 --   of nodes.
 block :: [Z] -> [Z] -> Pairs Z
 block (m:ms) ns = zipWith Pair (repeat m) ns ++ block ms ns
-block    []   _ = []
+block     []    _ = []
 
 ------------------------------------------------------------------------------
 -- | Generate all unique pairs of antennae indices, for the given number of
 --   antennae, and block-size. E.g., for the block:
---   
---     ([0,1,2], [3,4,5])  |-->
+--
+--      ([0,1,2], [3,4,5])  |-->
 --               [(0,3),(0,4),(0,5),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5)] ;
---   
+--
 --   which is only the pairs between each set; i.e., a complete bipartite
 --   graph between the two sets of nodes.
 --   Inputs:
@@ -162,10 +162,10 @@ blocks a b = go bs
     go (x:xs) = map (block x) xs ++ go xs
 
 -- | For each (sub)block, generate all shared pairs. E.g., for the block:
---   
---     [0,1,2,3,4,5]  |-->  [(0,1),(0,2),(0,3),(0,4),(0,5),(1,2),(1,3),(1,4),
+--
+--      [0,1,2,3,4,5]  |-->  [(0,1),(0,2),(0,3),(0,4),(0,5),(1,2),(1,3),(1,4),
 --                           (1,5),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5)] ;
---   
+--
 --   i.e., the cliques (complete graphs) for the given node-sets; and these
 --   pairwise computations need to be shared amongst all blocks with these
 --   sets of indices.
@@ -196,8 +196,8 @@ buildset a b =
       (m,sz) = (length sz, shareds  a b)
       (c,wz) = (m `div` (n*2), blocks a b)
       (xz,s) = foldl (\(xs, s) b ->
-                       let (x, s') = allocate c b s
-                       in  (x:xs, s')) ([], sz) bz
+                        let (x, s') = allocate c b s
+                        in  (x:xs, s')) ([], sz) bz
   in  zipWith (++) wz (reverse xz)
 
 ------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ params a b m =
            , (14,15), (22,23)]
       ms = toMeans $ if a == 24 then mx else [ (i,i+1) | i <- [0,2..] ]
       -- ^ The last two index-pairs, of each block, are used for counting the
-      --   number of ones, for four of the antennae.
+      --    number of ones, for four of the antennae.
       bz = let go ps     []  yz = (ps, yz)
                go ps (xs:xz) yz = let (ps', ys) = padEnds m ps xs
                                   in  second (ys:) $ go ps' xz yz
@@ -260,15 +260,15 @@ emitParams a b m bz =
       -- ^ generate antenna-index parameters:
       hx x = printf "{%d'h%x};" (ib*2*m) x :: String
       px = concatMap (map (hx . toBitfield ib)) bz
-      pp = zipWith (++) (repeat "   parameter ") (zipWith (++) lx px)
+      pp = zipWith (++) (repeat "    parameter ") (zipWith (++) lx px)
   in  select $ unsafeTextToLine . pack <$> (emitHeader a b m:pp)
 
 emitHeader :: Z -> Z -> Z -> String
 emitHeader a b m =
-  let hs = unlines [ "   //"
-                   , "   // Generated using:"
-                   , "   //   ./pairs.hs -a %d -b %d -m %d -o <file>"
-                   , "   //"]
+  let hs = unlines [ "    //"
+                   , "    // Generated using:"
+                   , "    //   ./pairs.hs -a %d -b %d -m %d -o <file>"
+                   , "    //"]
   in  printf (init hs) a b m
 
 
@@ -342,7 +342,7 @@ parser  = (,,,,,,) <$> optInt  "antennae"  'a' "The number of antennae"
 
 ------------------------------------------------------------------------------
 -- | Display extra information when the `--verbose` option is used.
---   
+--
 --   TODO: Make all output compatible with Verilog, so make comments from the
 --     lists of pairs.
 --   TODO: Display the permutation vector.
@@ -352,31 +352,27 @@ verbose a b m o = do
                    "// ", "// Correlator block parameters:", "// "]
   stdout $ makeParams a b m
   stdout ""
-  let f  = Set.fromList . uncurry (++) . unzip
-      bs = f . fromPairs <$> buildset a b
-      pz = params a b m
-      ps = map (f . fromPairs) <$> pz
-      ss = Set.fromList $ pairs a
+  let pz = params a b m
   mapM_ (mapM_ print >=> const (putStrLn "")) pz
 
 ------------------------------------------------------------------------------
 -- | Construct, and then emit the permutation vector to a (Numpy compatible)
 --   ASCII file.
 --   NOTE: To read using Numpy:
---     
+--
 --     > import numpy
 --     > pp = numpy.loadtxt(<filename>, dtype='int')
---     
+--
 --     and then can be used to permute the visibilities, that have been read
 --     back from the FPGA:
---     
+--
 --     > raw = tart.vis_read()
 --     > viz = [raw[i] for i in pp] ;
---     
+--
 --     or, simply (due to Numpy's array functionality):
---     
+--
 --     > viz = tart.vis_read()[pp]
---     
+--
 makePermute :: Z -> Z -> Z -> Shell Line
 makePermute a b =
   select . (:[]) . unsafeTextToLine . pack . intercalate " " . map show . permute a b
@@ -390,10 +386,10 @@ makePermHex a b =
 ------------------------------------------------------------------------------
 -- | Generate antenna-pair indices, for the correlators.
 --   Default (Makefile) options:
---   
+--
 --     runhaskell script/pairs.hs --antennas=24 --blocksize=6 --multiplex=12 \
 --       --outfile include/tart_pairs.v
---   
+--
 main :: IO ()
 main  = do
   (a, b, m, o, v, p, h) <- options "" parser
