@@ -53,8 +53,9 @@
 //    SELECT FEWER DEBUG FEATURES?
 //
 //----------------------------------------------------------------------------
-`define __RELEASE_BUILD
-//`undef  __RELEASE_BUILD
+
+// `define __RELEASE_BUILD
+`undef  __RELEASE_BUILD
 
 `ifndef __RELEASE_BUILD
  `define USE_DEBUG 1
@@ -166,10 +167,14 @@
 `define __USE_ACQUISITION
 
 //----------------------------------------------------------------------------
-//  There are two versions of the Papilio Pro LX9, V1.3 -- one has 8 MB of
-//  SDRAM, and the other has 64 MB (512 Mb).
+//  There are three versions of the Papilio Pro LX9 SDRAM configurations:
+//    64 Mb ( 8 MB) -- default, e.g. 48LC4M16A2
+//   256 Mb (32 MB) -- e.g. 48LC16M16A2
+//   512 Mb (64 MB) -- e.g. 48LC32M16A2
+//
+//  Uncomment exactly one of the following, or leave both commented for 64 Mb:
+`define __256Mb_SDRAM
 // `define __512Mb_SDRAM
-`undef  __512Mb_SDRAM
 
 
 

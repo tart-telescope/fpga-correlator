@@ -5,39 +5,39 @@
  *             : (C) Max Scheel      2016
  *             : (C) Patrick Suggate 2016
  * License     : LGPL3
- * 
+ *
  * Maintainer  : Patrick Suggate <patrick.suggate@gmail.com>
  * Stability   : Experimental
  * Portability : only tested with a Papilio board (Xilinx Spartan VI)
- * 
- * 
+ *
+ *
  * This file is part of TART.
- * 
+ *
  * TART is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * TART is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser Public License along with
  * TART.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * 
+ *
+ *
  * Description:
  * TART's raw-data acquisition control subcircuit, connected via a Wishbone
  * (SPEC B4) interconnect.
- * 
+ *
  * This module handles DRAM prefetch of raw acquisition data, for the SPI
  * interface, and contains registers for:
  *  a) controlling raw-data acquisition;
  *  b) the Memory Controller Block (MCB); and
  *  c) streaming back raw acquisition-data.
- * 
- * 
+ *
+ *
  * REGISTERS:
  *  Reg#   7         6       5       4       3       2      1      0
  *      -------------------------------------------------------------------
@@ -50,28 +50,31 @@
  *   10 ||                         RESERVED                              ||
  *      ||                                                               ||
  *      -------------------------------------------------------------------
- *   11 || ENABLED | ERROR | READY | 512Mb | OFLOW |        STATE        ||
+ *   11 || ENABLED | ERROR | READY | UPGRD | OFLOW |        STATE        ||
  *      ||  (R/W)  | (RO)  | (RO)  | (RO)  | (RO)  |        (RO)         ||
  *      -------------------------------------------------------------------
- * 
+ *
  * By default, the raw-data acquisition unit has address 7'b010_00xx.
- * 
- * 
+ *
+ *
  * NOTE:
  *  + supports both classic and pipelined transfers;
- * 
+ *
  * Changelog:
  *  + 23/08/2016  --  initial file (refactored from elsewhere);
  *  + 27/10/2016  --  upgraded to Wishbone SPEC B4;
  *  + 23/11/2016  --  refactored to just contain acquisition functionality;
- * 
+ *  + 03/03/2026  --  Max Scheel: renamed mcb_512mb to mcb_upgraded for
+ *                    256Mb/512Mb SDRAM support, updated register docs,
+ *                    whitespace cleanup;
+ *
  * TODO:
  *  + the block-access mechanism is currently not very flexible -- ideally,
  *    the block-counter would increment once all visibilities have been read
  *    back from the current block?
  *  + more testing for the upgraded to Wishbone (SPEC B4) interface;
  *  + checksums;
- * 
+ *
  */
 
 `include "tartcfg.v"
@@ -167,7 +170,7 @@ module tart_acquire
    //-------------------------------------------------------------------------
    //  Additional MCB signals.
    wire [MSB:0]    data_in;
-   wire            request, mcb_512mb;
+   wire            request, mcb_upgraded;
    reg             mcb_err = 1'b0, mcb_wat = 1'b0, active = 1'b0;
    wire [2:0]      cap_state;
 
@@ -197,10 +200,10 @@ module tart_acquire
                        data_in[7:0];
 
    //  Data acquisition status, and control register.
-   assign aq_system  = {en_acquire, mcb_err, mcb_rdy_i, mcb_512mb, oflow, cap_state};
+   assign aq_system  = {en_acquire, mcb_err, mcb_rdy_i, mcb_upgraded, oflow, cap_state};
 
-   //  Extended-memory device?
-   assign mcb_512mb  = ABITS >= 25;
+   //  Upgraded-memory device (256Mb or 512Mb)?
+   assign mcb_upgraded = ABITS >= 24;
 
 
    //-------------------------------------------------------------------------
@@ -271,9 +274,9 @@ module tart_acquire
 
 
    //-------------------------------------------------------------------------
-   //  
+   //
    //  PREFETCH RAW ACQUISITION-DATA FROM THE SYSTEM DRAM.
-   //  
+   //
    //-------------------------------------------------------------------------
    //  Increment the current antenna-data index, and prefetch more data as
    //  needed.
