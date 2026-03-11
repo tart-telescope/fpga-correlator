@@ -21,34 +21,34 @@
  *             : (C) Max Scheel      2016
  *             : (C) Patrick Suggate 2016
  * License     : LGPL3
- * 
+ *
  * Maintainer  : Patrick Suggate <patrick.suggate@gmail.com>
  * Stability   : Experimental
  * Portability : only tested with a Papilio board (Xilinx Spartan 6)
- * 
- * 
+ *
+ *
  * This file is part of TART.
- * 
+ *
  * TART is free software: you can redistribute it and/or modify it under the
  * terms of the GNU Lesser Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * TART is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser Public License along with
  * TART.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * 
+ *
+ *
  * Description:
  * TART hardware description for data-acquisition, and real-time computation
  * of visibilities.
- * 
+ *
  * TART has the data-flow (from the point-of-view of the signal data):
- * 
+ *
  *   \|/                         +---------+          +---------+
  *    |                          |         |          |         |
  *    |                    +---> |  DSP    |----o---> |  SPI    | <===> I/O
@@ -57,7 +57,7 @@
  *    +---> | CAPTURE |----o                    |
  *          |         |    |     +---------+    |
  *          +---------+    |     |         |----+
- *                         +---> | ACQUIRE |     
+ *                         +---> | ACQUIRE |
  *                               |         | <---o
  *                               +---------+     |
  *          +---------+                          |    +---------+
@@ -65,12 +65,12 @@
  *          |  SDRAM  | <------------------------+    | CONTROL |
  *          |         |                               |         |
  *          +---------+                               +---------+  ;
- * 
+ *
  * and where only the SDRAM controller doesn't have registers that can be
  * set using the off-chip, SPI interface (in the above diagram). The Wishbone
  * data-flow (both register settings, and signal data) is controlled by the
  * 'tart_wishbone' core.
- * 
+ *
  * The above top-level modules are available at:
  *  + verilog/spi/spi_slave_wb.v
  *  + verilog/acquire/tart_capture.v
@@ -78,25 +78,25 @@
  *  + verilog/correlator/tart_dsp.v
  *  + verilog/tart_control.v
  *  + verilog/SDRAM_Controller_v.v
- * 
- * 
+ *
+ *
  * The default address ranges for the SPI slaves are:
  *  + 7'b000_00xx -- signal-capture unit;
  *  + 7'b010_00xx -- raw-data acquisition unit;
  *  + 7'b100_00xx -- DSP/visibilities unit; and
  *  + 7'b110_00xx -- (system) control unit.
- * 
- * 
+ *
+ *
  * Raw-acquisition start-up sequence:
  *  1/ enable the capture unit ('capture/tart_capture.v');
  *  2/ enable the acquisition unit ('acquire/tart_acquire.v');
  *  3/ wait until 'state[2:0] > 2'; and
  *  4/ stream back the raw data (via SPI),
  * and as an example, this mode can be launched via a Python script:
- * 
+ *
  *  > sudo python tart_testbench.py --bramexp=21 --internal --counter
- * 
- * 
+ *
+ *
  * Real-time visibilities calculation mode:
  *  1/ enable the capture unit ('capture/tart_capture.v');
  *  2/ set the 'blocksize' (correlator-sums / bank) register;
@@ -105,10 +105,10 @@
  *  4/ stream back the visibilities data (via SPI); and
  *  5/ go to step 3/,
  * and as an example, this mode can be launched via a Python script:
- * 
+ *
  *  > sudo python low_level_dsp.py --blocksize=22 --monitor --capture
- * 
- * 
+ *
+ *
  * Changelog:
  *  + ??/??/2013  --  initial file;
  *  + 11/05/2016  --  rebuilt the SPI module to be faster, have a Wishbone-
@@ -121,11 +121,13 @@
  *  + 15/10/2016  --  fixed many clock-domain crossing issues, and upgraded to
  *                    Wishbone SPEC B4 Pipelined transactions;
  *  + 17/11/2016  --  new data-capture circuits;
- * 
+ *  + 03/03/2026  --  Max Scheel: added 256Mb SDRAM configuration, clarified
+ *                    SDRAM parameter comments, whitespace cleanup;
+ *
  * NOTE:
- * 
+ *
  * TODO:
- * 
+ *
  */
 
 `include "tartcfg.v"
@@ -134,14 +136,18 @@ module tart
   #(// Memory controller parameters:
     parameter SDRAM_STARTUP_CYCLES = 10100, // -- 100us, plus a little more, @100MHz
 `ifdef __512Mb_SDRAM
-    parameter SDRAM_COLUMN_BITS    = 10, // 8 for standard papilio pro
-    parameter SDRAM_ADDRESS_WIDTH  = 25, // 22 for standard papilio pro
+    parameter SDRAM_COLUMN_BITS    = 10, // 10-bit column for 512Mb (64 MB) SDRAM
+    parameter SDRAM_ADDRESS_WIDTH  = 25, // 25 for 512Mb SDRAM
+    parameter CYCLES_PER_REFRESH   = 780, // (64000*100)/8192-1 Cycled as (64ms @100MHz)/8192 rows
+`elsif __256Mb_SDRAM
+    parameter SDRAM_COLUMN_BITS    = 9,  // 9-bit column for 256Mb (32 MB) SDRAM
+    parameter SDRAM_ADDRESS_WIDTH  = 24, // 24 for 256Mb SDRAM
     parameter CYCLES_PER_REFRESH   = 780, // (64000*100)/8192-1 Cycled as (64ms @100MHz)/8192 rows
 `else
-    parameter SDRAM_COLUMN_BITS    = 8,     // 8 for standard papilio pro
+    parameter SDRAM_COLUMN_BITS    = 8,     // 8 for standard papilio pro (64Mb / 8 MB)
     parameter SDRAM_ADDRESS_WIDTH  = 22,    // 22 for standard papilio pro
     parameter CYCLES_PER_REFRESH   = 1524,  // (64000*100)/4096-1 Cycled as (64ms @100MHz)/4096 rows
-`endif // !`ifdef __512Mb_SDRAM
+`endif // __512Mb_SDRAM / __256Mb_SDRAM
     parameter SSB                  = SDRAM_ADDRESS_WIDTH-2,
 
     //  Antenna/signal parameters:
@@ -178,13 +184,13 @@ module tart
     output wire [12:0] SDRAM_ADDR,
     output wire [1:0]  SDRAM_BA,
     inout wire [15:0]  SDRAM_DQ,
-   
+
     // SPI
     input              SPI_SCK,
     input              SPI_SSEL,
     input              SPI_MOSI,
     output wire        SPI_MISO,
-   
+
     // TELESCOPE
     input              rx_clk_16, // 16.368 MHz receiver master clock
     input [NSB:0]      antenna, // Radio Data Interface
@@ -300,7 +306,7 @@ module tart
    wire [MSB:0]        cx_signal;
 
    //-------------------------------------------------------------------------
-   //  Acquisition (of antenna raw-data) signals:   
+   //  Acquisition (of antenna raw-data) signals:
    wire                aq_enabled;
    wire [2:0]          aq_state;
 
@@ -324,7 +330,7 @@ module tart
                         cx_enabled,   cx_debug, // capture status
                         aq_enabled,  aq_state}; // acquisition status
    assign spi_status = {spi_oflow, spi_uflow, 5'h0, spi_busy};
-   
+
    //-------------------------------------------------------------------------
    //  Additional (optional) debugging outputs.
 `ifdef __RELEASE_BUILD
@@ -375,17 +381,17 @@ module tart
 
 
    //-------------------------------------------------------------------------
-   //  
+   //
    //  ANTENNA RAW-DATA CAPTURE BLOCK
-   //  
+   //
    //-------------------------------------------------------------------------
    //  No acquisition means that the memory-controller isn't needed.
 
 `ifdef __USE_ACQUISITION
    //-------------------------------------------------------------------------
-   //  
+   //
    //  SDRAM CONTROLLER FOR THE RAW ANTENNA DATA
-   //  
+   //
    //-------------------------------------------------------------------------
    (* NOMERGE *) reg reset_sdram = 1'b1;
 
@@ -464,10 +470,10 @@ module tart
    //   + raw-data acquisition and buffer unit;
    //   + DSP core (that computes the visibilities); and
    //   + TART system-controller.
-   //  
+   //
    //  TODO:
    //   + parameterise moar stuffs;
-   //  
+   //
    tart_wishbone
      #(  .XBITS(2),
          .ASYNC(1),
@@ -594,7 +600,7 @@ module tart
         // .status_i  (viz_status),
         .overflow_o(spi_oflow),
         .underrun_o(spi_uflow),
-        
+
         .SCK_pin   (SPI_SCK),
         .MOSI      (SPI_MOSI),
         .MISO      (SPI_MISO),
@@ -618,12 +624,12 @@ module tart
    //  Raw-data generally requires clock-recovery, as each antenna's clock
    //  has an unknown phase-delay associated with it. Clock-recovery for each
    //  antenna/channel removes these delays from each channel.
-   //  
+   //
    //  NOTE:
    //   + capture registers are mapped to '0b00nnnnn'.
    //   + for testing purposes, registers can be set so that fake data is
    //     generated;
-   //  
+   //
    tart_capture
      #( .AXNUM(ANTENNAE),
         // use additional data-capture and alignment circuitry?
@@ -692,10 +698,10 @@ module tart
 
    //-------------------------------------------------------------------------
    //  This module controls the raw-data acquisition unit.
-   //  
+   //
    //  NOTE:
    //   + acquisition registers are mapped to '0b01nnnnn'.
-   //  
+   //
    tart_acquire
      #(  .AXNUM    (ANTENNAE),
          .ABITS    (SDRAM_ADDRESS_WIDTH),
@@ -746,9 +752,9 @@ module tart
 
 `ifdef __USE_CORRELATORS
    //-------------------------------------------------------------------------
-   //     
+   //
    //  CORRELATOR / VISIBILITIES BLOCK.
-   //     
+   //
    //-------------------------------------------------------------------------
    //  Local synchronous reset for the DSP functional unit.
    (* NOMERGE *) reg reset_dsp = 1'b1;
@@ -759,7 +765,7 @@ module tart
    //-------------------------------------------------------------------------
    //  NOTE:
    //   + system-control registers are mapped to '0b10nnnnn'.
-   //  
+   //
    tart_dsp
      #( .AXNUM(ANTENNAE),       // number of attached antennae
         .ACCUM(ACCUM),          // accumulator bit-width
@@ -840,7 +846,7 @@ module tart
    //-------------------------------------------------------------------------
    //  NOTE:
    //   + system-control registers are mapped to '0b11nnnnn'.
-   //  
+   //
    tart_control
      #( .WIDTH(BBITS),
         .RTIME(4),
