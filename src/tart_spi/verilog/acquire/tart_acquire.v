@@ -203,7 +203,13 @@ module tart_acquire
    assign aq_system  = {en_acquire, mcb_err, mcb_rdy_i, mcb_upgraded, oflow, cap_state};
 
    //  Upgraded-memory device (256Mb or 512Mb)?
-   assign mcb_upgraded = ABITS >= 24;
+`ifdef __256Mb_SDRAM
+   assign mcb_upgraded = 1'b1;
+`elsif __512Mb_SDRAM
+   assign mcb_upgraded = 1'b1;
+`else
+   assign mcb_upgraded = 1'b0;
+`endif
 
 
    //-------------------------------------------------------------------------
