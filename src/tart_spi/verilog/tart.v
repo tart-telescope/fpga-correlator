@@ -704,7 +704,7 @@ module tart
    //
    tart_acquire
      #(  .AXNUM    (ANTENNAE),
-         .ABITS    (SDRAM_ADDRESS_WIDTH),
+         .ABITS    (SDRAM_ADDRESS_WIDTH - 1),
          .BBITS    (BBITS),
          .PIPED    (PIPED),     // Wishbone mode settings
          .RESET    (0),
